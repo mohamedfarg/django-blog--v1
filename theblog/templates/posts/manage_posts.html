@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+  manage posts
+{% endblock title %}
+{% block content %}
+{% include 'layouts/header.html' %}
+<div class="d-flex align-items-center justify-content-center" style="height: 100vh;">
+    <div class="bg-light p-3">
+        <a class="btn btn-success mb-3" href="{% url 'post_new' %}">Add Post</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>author</th>
+                    <th>Title</th>
+                    <th>describtion</th>
+                    <th>Created at</th>
+                    <th>Column Adjust</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+
+                <tr>
+                    <td>{{post.author}}</td>
+                    <td>{{post.title}}</td>
+                    <td>{{post.content|safe}}</td>
+                    <td>{{post.published_date}}</td>
+                    <td>
+                        <a href="{% url 'post_edit' post.id %}" class="btn btn-primary">edit</a>
+                        <a href="{% url 'post_delete' post.id %}" class="btn btn-danger">delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+            <ul class="pagination">
+              {% if posts.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ posts.previous_page_number }}">Previous</a>
+              </li>
+              {% endif %}
+          
+              {% for page_num in posts.paginator.page_range %}
+              <li class="page-item {% if page_num == posts.number %}active{% endif %}">
+                <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+              </li>
+              {% endfor %}
+          
+              {% if posts.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ posts.next_page_number }}">Next</a>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+          
+    </div>
+</div>
+{% endblock content %}

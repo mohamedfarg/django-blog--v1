@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block title %}add post{% endblock %}
+{% block content %}
+{% include 'layouts/header.html' %}
+<div class="section my-5">
+
+    <form action="{% url 'post_new' %}" method="POST" class="section py-5">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" value="Submit">
+      </form>
+</div>
+      {% endblock %}
